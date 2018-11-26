@@ -2,14 +2,6 @@
 <meta charset="utf-8">
 <title>Peli</title>
 <style>
-	p {
-		color: red;
-		border: 1px solid;
-		height: 100px;
-		padding: 20px;
-		border-radius: 20px;
-	}
-
 	canvas {
 		width: 640px;
 		height: 360px;
@@ -20,13 +12,16 @@
 
 <body>
 
-<p>
-	Moi!
-</p>
-
 <canvas>
-
 </canvas>
+
+<script>
+	let c = document.querySelector('canvas')
+
+	let ctx = c.getContext('2d')
+
+	ctx.fillRect(10, 10, 100, 100)
+</script>
 
 </body>
 
