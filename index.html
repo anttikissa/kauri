@@ -16,6 +16,8 @@
 </canvas>
 
 <script>
+	let log = console.log
+
 	const WIDTH = 17
 	const HEIGHT = 10
 
@@ -26,7 +28,7 @@
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
 		0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
-		0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+		0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0,
 		0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
 
 		0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
@@ -40,7 +42,28 @@
 
 	let ctx = c.getContext('2d')
 
-	ctx.fillRect(10, 10, 100, 100)
+	function tile(x, y) {
+		// log('tile', x, y)
+		let xStart = 10 + x * TILE_WIDTH
+		let yStart = 10 + y * TILE_HEIGHT
+
+		let content = tiles[WIDTH * y + x]
+		if (content === 0) {
+			ctx.fillStyle = '#f4b27d'
+		} else if (content === 1) {
+			ctx.fillStyle = '#98c23d'
+		} else if (content === 2) {
+			ctx.fillStyle = '#ff9061'
+		}
+
+		ctx.fillRect(xStart, yStart, TILE_WIDTH, TILE_HEIGHT)
+	}
+
+	for (let x = 0; x < WIDTH; x++) {
+		for (let y = 0; y < HEIGHT; y++) {
+			tile(x, y)
+		}
+	}
 </script>
 
 </body>
