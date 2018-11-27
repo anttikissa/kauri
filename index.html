@@ -68,8 +68,6 @@
 	let playerX = 0.5 * (0 + WIDTH)
 	let playerY = 0.5
 
-	drawPlayer()
-
 	function drawPlayer() {
 		ctx.fillStyle = '#000000'
 		ctx.fillRect(playerX * TILE_WIDTH, playerY * TILE_HEIGHT, 1, 1)
@@ -83,8 +81,13 @@
 	}
 
 	function keydown(event) {
+		// r
 		let keyCode = event.keyCode
+		if (keyCode === 82) {
+			return;
+		}
 		event.preventDefault()
+
 		if (event.repeat) {
 			return
 		}
@@ -126,6 +129,28 @@
 	window.addEventListener('keydown', keydown)
 	window.addEventListener('keyup', keyup)
 
+	const SPEED = 1
+
+	function frame() {
+		if (keys.right) {
+			playerX += SPEED
+		}
+		if (keys.left) {
+			playerX -= SPEED
+		}
+		if (keys.up) {
+			playerY -= SPEED
+		}
+		if (keys.down) {
+			playerY += SPEED
+		}
+
+		drawPlayer()
+
+		log('player', playerX, playerY)
+	}
+
+	setInterval(frame, 1000 / 60)
 </script>
 
 </body>
