@@ -44,8 +44,8 @@
 
 	function tile(x, y) {
 		// log('tile', x, y)
-		let xStart = 10 + x * TILE_WIDTH
-		let yStart = 10 + y * TILE_HEIGHT
+		let xStart = x * TILE_WIDTH
+		let yStart = y * TILE_HEIGHT
 
 		let content = tiles[WIDTH * y + x]
 		if (content === 0) {
@@ -64,6 +64,20 @@
 			tile(x, y)
 		}
 	}
+
+	let playerX = 0.5 * (0 + WIDTH)
+	let playerY = 0.5
+
+	drawPlayer()
+
+	function drawPlayer() {
+		ctx.fillStyle = '#000000'
+		ctx.fillRect(playerX * TILE_WIDTH, playerY * TILE_HEIGHT, 1, 1)
+	}
+
+	// window.addEventListener('keydown', keydown)
+	// window.addEventListener('keydown', keyup)
+
 </script>
 
 </body>
