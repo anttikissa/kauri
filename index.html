@@ -104,7 +104,7 @@
 
 		function keydown(event) {
 
-			log('keydown', event.key, event.char, event.keyCode)
+			// log('keydown', event.key, event.char, event.keyCode)
 
 			// don't prevent alt-r (hack!)
 			let keyCode = event.keyCode
@@ -156,7 +156,10 @@
 
 		const SPEED = 0.05
 
+		let frameIdx = 0
+
 		function frame() {
+			frameIdx++
 
 			let oldPlayerX
 			let oldPlayerY
@@ -212,8 +215,12 @@
 			drawPlayerPositionDebug()
 			drawPlayerTileDebug()
 
+			// debug
+			// console.log(frameIdx)
+
 			// log('player', playerX, playerY)
 		}
+
 
 		setInterval(frame, 1000 / 60)
 	</script>
