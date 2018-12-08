@@ -38,10 +38,11 @@
 			0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
 		]
 
-		// Player is on which kind of tile?
-		function currentTile() {
-			let x = Math.floor(playerX)
-			let y = Math.floor(playerY)
+		// Object (looks like { x, y } is on which kind of tile?
+		// By default, use player x, y as object
+		function currentTile(object = { x: playerX, y: playerY }) {
+			let x = Math.floor(object.x)
+			let y = Math.floor(object.y)
 
 			if (x < 0 || x >= WIDTH) {
 				return 2
@@ -104,6 +105,7 @@
 
 		function drawPlayerPositionDebug() {
 			let playerPositionText = `${playerX.toFixed(2)}, ${playerY.toFixed(2)}`
+			ctx.fillStyle = '#000000'
 			ctx.textAlign = 'center'
 			ctx.font = '7px sans-serif'
 			ctx.fillText(playerPositionText, playerX * TILE_WIDTH, playerY * TILE_WIDTH - 3)
@@ -111,6 +113,7 @@
 
 		function drawPlayerTileDebug() {
 			let tile = currentTile()
+			ctx.fillStyle = '#000000'
 			ctx.textAlign = 'center'
 			ctx.font = '7px sans-serif'
 			ctx.fillText(tile, playerX * TILE_WIDTH, playerY * TILE_WIDTH + 10)
@@ -133,6 +136,9 @@
 				bullets.push({
 					x: playerX,
 					y: playerY,
+					// for testing
+					// velX: BULLET_SPEED,
+					// velY: 0
 					velX: (2 * Math.random() - 1) * BULLET_SPEED,
 					velY: (2 * Math.random() - 1) * BULLET_SPEED,
 				})
@@ -228,6 +234,13 @@
 				return false
 			}
 
+			function isBulletBlocked(bullet) {
+				if (currentTile(bullet) === 2) {
+					return true
+				}
+				return false
+			}
+
 			function restorePositionIfBlocked() {
 				let isBlocked = isPlayerBlocked()
 				if (isBlocked) {
@@ -241,8 +254,18 @@
 					bullet.x += bullet.velX
 					bullet.y += bullet.velY
 				}
+			}
 
-				console.log(bullets.length)
+			function removeBlockedBullets() {
+				for (let i = 0; i < bullets.length; i++) {
+					let bullet = bullets[i]
+					if (isBulletBlocked(bullet)) {
+						// splice magic
+						bullets.splice(i, 1)
+						// index adjustment magic
+						i--
+					}
+				}
 			}
 
 			savePlayerPosition()
@@ -254,6 +277,7 @@
 			restorePositionIfBlocked()
 			
 			moveBullets()
+			removeBlockedBullets()
 
 			drawLevel()
 			drawPlayer()
@@ -269,6 +293,12 @@
 		}
 
 		setInterval(frame, 1000 / 60)
+
+		// debug: draw all bullets 10 times a second
+		// setInterval(() => {
+		// 	console.log(bullets.map(b => `${b.x}, ${b.y}`).join(' - '))
+		// }, 100)
 	</script>
+
 
 </body>
