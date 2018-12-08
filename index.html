@@ -180,12 +180,18 @@
 
 			movePlayer()
 
-			// let isBlocked = isPlayerBlocked()
-			// if (isBlocked) {
-			// 	playerX = oldPlayerX
-			// ...
-				
-			// }
+			function isPlayerBlocked() {
+				if (currentTile() === 2) {
+					return true
+				}
+				return false
+			}
+
+			let isBlocked = isPlayerBlocked()
+			if (isBlocked) {
+				playerX = oldPlayerX
+				playerY = oldPlayerY
+			}
 			
 			drawLevel()
 			drawPlayer()
