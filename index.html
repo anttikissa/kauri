@@ -12,153 +12,190 @@
 
 <body>
 
-<canvas>
-</canvas>
+	<canvas>
+	</canvas>
 
-<script>
-	let log = console.log
+	<script>
+		let log = console.log
 
-	const WIDTH = 21
-	const HEIGHT = 10
+		const WIDTH = 21
+		const HEIGHT = 10
 
-	const TILE_WIDTH = 14
-	const TILE_HEIGHT = 14
+		const TILE_WIDTH = 14
+		const TILE_HEIGHT = 14
 
-	let tiles = [
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-		0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0, 2, 0, 1, 0, 1, 0, 1, 0, 1, 0,
-		0, 2, 1, 2, 1, 2, 1, 2, 0, 0, 0, 0, 0, 2, 1, 2, 1, 2, 1, 2, 0,
-		0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0, 2, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+		let tiles = [
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
+			0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0, 2, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+			0, 2, 1, 2, 1, 2, 1, 2, 0, 0, 0, 0, 0, 2, 1, 2, 1, 2, 1, 2, 0,
+			0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0, 2, 0, 1, 0, 1, 0, 1, 0, 1, 0,
 
-		0, 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 2, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-		0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0, 2, 0, 1, 0, 1, 0, 1, 0, 1, 0,
-		0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-		0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0, 2, 0, 1, 0, 1, 0, 1, 0, 1, 0,
-		0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-	]
+			0, 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 2, 0, 1, 1, 1, 1, 1, 1, 1, 0,
+			0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0, 2, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+			0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
+			0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0, 2, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+			0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
+		]
 
-	let c = document.querySelector('canvas')
+		// Player is on which kind of tile?
+		function currentTile() {
+			return tiles[Math.floor(playerX) + WIDTH * Math.floor(playerY)]
+		}
+		
+		let c = document.querySelector('canvas')
 
-	let ctx = c.getContext('2d')
+		let ctx = c.getContext('2d')
 
-	function tile(x, y) {
-		// log('tile', x, y)
-		let xStart = x * TILE_WIDTH
-		let yStart = y * TILE_HEIGHT
+		function tile(x, y) {
+			// log('tile', x, y)
+			let xStart = x * TILE_WIDTH
+			let yStart = y * TILE_HEIGHT
 
-		let content = tiles[WIDTH * y + x]
-		if (content === 0) {
-			ctx.fillStyle = '#f4b27d'
-		} else if (content === 1) {
-			ctx.fillStyle = '#98c23d'
-		} else if (content === 2) {
-			ctx.fillStyle = '#ff9061'
+			let content = tiles[WIDTH * y + x]
+			if (content === 0) {
+				ctx.fillStyle = '#f4b27d'
+			} else if (content === 1) {
+				ctx.fillStyle = '#98c23d'
+			} else if (content === 2) {
+				ctx.fillStyle = '#ff9061'
+			}
+
+			ctx.fillRect(xStart, yStart, TILE_WIDTH, TILE_HEIGHT)
 		}
 
-		ctx.fillRect(xStart, yStart, TILE_WIDTH, TILE_HEIGHT)
-	}
-
-	function drawLevel() {
-		for (let x = 0; x < WIDTH; x++) {
-			for (let y = 0; y < HEIGHT; y++) {
-				tile(x, y)
+		function drawLevel() {
+			for (let x = 0; x < WIDTH; x++) {
+				for (let y = 0; y < HEIGHT; y++) {
+					tile(x, y)
+				}
 			}
 		}
-	}
 
-	// Middle point of player
-	let playerX = 0.5 * (0 + WIDTH)
-	let playerY = 0.5
+		// Middle point of player
+		let playerX = 0.5 * (0 + WIDTH)
+		let playerY = 0.5
 
-	function drawPlayer() {
-		ctx.fillStyle = '#000000'
-		ctx.fillRect(playerX * TILE_WIDTH, playerY * TILE_HEIGHT, 1, 1)
-	}
-
-	let keys = {
-		up: 0,
-		down: 0,
-		left: 0,
-		right: 0,
-	}
-
-	function keydown(event) {
-
-		log('keydown', event.key, event.char, event.keyCode)
-
-		// don't prevent alt-r (hack!)
-		let keyCode = event.keyCode
-		if (keyCode === 82) {
-			return;
-		}
-		event.preventDefault()
-
-		if (event.repeat) {
-			return
+		function drawPlayer() {
+			ctx.fillStyle = '#000000'
+			ctx.fillRect(playerX * TILE_WIDTH, playerY * TILE_HEIGHT, 1, 1)
 		}
 
-		if (keyCode === 38) {
-			keys.up = 1
-		} else if (keyCode === 40) {
-			keys.down = 1
-		} else if (keyCode === 37) {
-			keys.left = 1
-		} else if (keyCode === 39) {
-			keys.right = 1
+		function drawPlayerPositionDebug() {
+			let playerPositionText = `${playerX.toFixed(2)}, ${playerY.toFixed(2)}`
+			ctx.textAlign = 'center'
+			ctx.font = '7px sans-serif'
+			ctx.fillText(playerPositionText, playerX * TILE_WIDTH, playerY * TILE_WIDTH - 3)
 		}
 
-		// log('down', keyCode, keys)
-	}
-
-	function keyup(event) {
-		let keyCode = event.keyCode
-		event.preventDefault()
-
-		if (event.repeat) {
-			return
+		function drawPlayerTileDebug() {
+			let tile = currentTile()
+			ctx.textAlign = 'center'
+			ctx.font = '7px sans-serif'
+			ctx.fillText(tile, playerX * TILE_WIDTH, playerY * TILE_WIDTH + 10)
 		}
 
-		if (keyCode === 38) {
-			keys.up = 0
-		} else if (keyCode === 40) {
-			keys.down = 0
-		} else if (keyCode === 37) {
-			keys.left = 0
-		} else if (keyCode === 39) {
-			keys.right = 0
+		let keys = {
+			up: 0,
+			down: 0,
+			left: 0,
+			right: 0,
 		}
 
-		// log('up', keyCode, keys)
-	}
+		function keydown(event) {
 
-	window.addEventListener('keydown', keydown)
-	window.addEventListener('keyup', keyup)
+			log('keydown', event.key, event.char, event.keyCode)
 
-	const SPEED = 0.05
+			// don't prevent alt-r (hack!)
+			let keyCode = event.keyCode
+			if (keyCode === 82) {
+				return;
+			}
+			event.preventDefault()
 
-	function frame() {
-		if (keys.right) {
-			playerX += SPEED
+			if (event.repeat) {
+				return
+			}
+
+			if (keyCode === 38) {
+				keys.up = 1
+			} else if (keyCode === 40) {
+				keys.down = 1
+			} else if (keyCode === 37) {
+				keys.left = 1
+			} else if (keyCode === 39) {
+				keys.right = 1
+			}
+
+			// log('down', keyCode, keys)
 		}
-		if (keys.left) {
-			playerX -= SPEED
-		}
-		if (keys.up) {
-			playerY -= SPEED
-		}
-		if (keys.down) {
-			playerY += SPEED
+
+		function keyup(event) {
+			let keyCode = event.keyCode
+			event.preventDefault()
+
+			if (event.repeat) {
+				return
+			}
+
+			if (keyCode === 38) {
+				keys.up = 0
+			} else if (keyCode === 40) {
+				keys.down = 0
+			} else if (keyCode === 37) {
+				keys.left = 0
+			} else if (keyCode === 39) {
+				keys.right = 0
+			}
+
+			// log('up', keyCode, keys)
 		}
 
-		drawLevel()
-		drawPlayer()
+		window.addEventListener('keydown', keydown)
+		window.addEventListener('keyup', keyup)
 
-		// log('player', playerX, playerY)
-	}
+		const SPEED = 0.05
 
-	setInterval(frame, 1000 / 60)
-</script>
+		function frame() {
+
+			let oldPlayerX = playerX
+			let oldPlayerY = playerY
+
+			function movePlayer() {
+
+				if (keys.right) {
+					playerX += SPEED
+				}
+				if (keys.left) {
+					playerX -= SPEED
+				}
+				if (keys.up) {
+					playerY -= SPEED
+				}
+				if (keys.down) {
+					playerY += SPEED
+				}
+
+			}
+
+			movePlayer()
+
+			// let isBlocked = isPlayerBlocked()
+			// if (isBlocked) {
+			// 	playerX = oldPlayerX
+			// ...
+				
+			// }
+			
+			drawLevel()
+			drawPlayer()
+			drawPlayerPositionDebug()
+			drawPlayerTileDebug()
+
+			// log('player', playerX, playerY)
+		}
+
+		setInterval(frame, 1000 / 60)
+	</script>
 
 </body>
-
