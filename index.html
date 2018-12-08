@@ -103,23 +103,16 @@
 		}
 
 		function keydown(event) {
-
-			// log('keydown', event.key, event.char, event.keyCode)
-
-			// don't prevent alt-r (hack!)
 			let keyCode = event.keyCode
-			if (keyCode === 82) {
-				return;
-			}
-			event.preventDefault()
-
-			if (event.repeat) {
-				return
-			}
+			
+			// Should we preventDefault?
+			let prevent = false
 
 			if (keyCode === 38) {
+				prevent = true
 				keys.up = 1
 			} else if (keyCode === 40) {
+				prevent = true
 				keys.down = 1
 			} else if (keyCode === 37) {
 				keys.left = 1
@@ -127,6 +120,14 @@
 				keys.right = 1
 			}
 
+			if (prevent) {
+				event.preventDefault()
+			}
+
+			// Don't mind this
+			// if (event.repeat) {
+			// 	return
+			// }
 			// log('down', keyCode, keys)
 		}
 
