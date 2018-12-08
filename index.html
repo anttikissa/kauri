@@ -42,7 +42,15 @@
 		function currentTile() {
 			let x = Math.floor(playerX)
 			let y = Math.floor(playerY)
-			
+
+			if (x < 0 || x >= WIDTH) {
+				return 2
+			}
+
+			if (y < 0 || y >= HEIGHT) {
+				return 2
+			}
+
 			return tiles[x + WIDTH * y]
 		}
 		
