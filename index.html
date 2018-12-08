@@ -87,9 +87,19 @@
 		let playerX = 0.5 * (0 + WIDTH)
 		let playerY = 0.5
 
+		// A bullet is { x, y, velX, velY }
+		let bullets = []
+
 		function drawPlayer() {
 			ctx.fillStyle = '#000000'
 			ctx.fillRect(playerX * TILE_WIDTH, playerY * TILE_HEIGHT, 1, 1)
+		}
+
+		function drawBullets() {
+			for (let bullet of bullets) {
+				ctx.fillStyle = '#0000ff'
+				ctx.fillRect(bullet.x * TILE_WIDTH, bullet.y * TILE_HEIGHT, 1, 1)
+			}
 		}
 
 		function drawPlayerPositionDebug() {
@@ -116,6 +126,18 @@
 		function keydown(event) {
 			let keyCode = event.keyCode
 			
+			// shift
+			if (keyCode === 16) {
+				BULLET_SPEED = 0.2
+
+				bullets.push({
+					x: playerX,
+					y: playerY,
+					velX: (2 * Math.random() - 1) * BULLET_SPEED,
+					velY: (2 * Math.random() - 1) * BULLET_SPEED,
+				})
+			}
+
 			// Should we preventDefault?
 			let prevent = false
 
@@ -214,6 +236,14 @@
 				}
 			}
 
+			function moveBullets() {
+				for (let bullet of bullets) {
+					bullet.x += bullet.velX
+					bullet.y += bullet.velY
+					console.log(bullet)
+				}
+			}
+
 			savePlayerPosition()
 			movePlayerX()
 			restorePositionIfBlocked()
@@ -222,8 +252,12 @@
 			movePlayerY()
 			restorePositionIfBlocked()
 			
+			moveBullets()
+
 			drawLevel()
 			drawPlayer()
+			drawBullets()
+
 			drawPlayerPositionDebug()
 			drawPlayerTileDebug()
 
@@ -232,7 +266,6 @@
 
 			// log('player', playerX, playerY)
 		}
-
 
 		setInterval(frame, 1000 / 60)
 	</script>
