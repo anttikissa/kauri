@@ -158,27 +158,31 @@
 
 		function frame() {
 
-			let oldPlayerX = playerX
-			let oldPlayerY = playerY
+			let oldPlayerX
+			let oldPlayerY
 
-			function movePlayer() {
+			function savePlayerPosition() {
+				oldPlayerX = playerX
+				oldPlayerY = playerY
+			} 
 
+			function movePlayerX() {
 				if (keys.right) {
 					playerX += SPEED
 				}
 				if (keys.left) {
 					playerX -= SPEED
 				}
+			}
+
+			function movePlayerY() {
 				if (keys.up) {
 					playerY -= SPEED
 				}
 				if (keys.down) {
 					playerY += SPEED
 				}
-
 			}
-
-			movePlayer()
 
 			function isPlayerBlocked() {
 				if (currentTile() === 2) {
@@ -187,11 +191,18 @@
 				return false
 			}
 
-			let isBlocked = isPlayerBlocked()
-			if (isBlocked) {
-				playerX = oldPlayerX
-				playerY = oldPlayerY
+			function restorePositionIfBlocked() {
+				let isBlocked = isPlayerBlocked()
+				if (isBlocked) {
+					playerX = oldPlayerX
+					playerY = oldPlayerY
+				}
 			}
+
+			savePlayerPosition()
+			movePlayerX()
+			movePlayerY()
+			restorePositionIfBlocked()
 			
 			drawLevel()
 			drawPlayer()
