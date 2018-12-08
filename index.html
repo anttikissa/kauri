@@ -40,7 +40,10 @@
 
 		// Player is on which kind of tile?
 		function currentTile() {
-			return tiles[Math.floor(playerX) + WIDTH * Math.floor(playerY)]
+			let x = Math.floor(playerX)
+			let y = Math.floor(playerY)
+			
+			return tiles[x + WIDTH * y]
 		}
 		
 		let c = document.querySelector('canvas')
