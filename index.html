@@ -19,6 +19,8 @@
 			console.log(...args)
 		}
 
+		const PLAYER_SIZE = 0.75
+
 		const WIDTH = 21
 		const HEIGHT = 10
 
@@ -55,7 +57,7 @@
 
 			return tiles[x + WIDTH * y]
 		}
-		
+
 		let c = document.querySelector('canvas')
 
 		let ctx = c.getContext('2d')
@@ -94,7 +96,11 @@
 
 		function drawPlayer() {
 			ctx.fillStyle = '#000000'
-			ctx.fillRect(playerX * TILE_WIDTH, playerY * TILE_HEIGHT, 1, 1)
+			ctx.fillRect(
+				(playerX - 0.5 * PLAYER_SIZE) * TILE_WIDTH,
+				(playerY - 0.5 * PLAYER_SIZE) * TILE_HEIGHT,
+				PLAYER_SIZE * TILE_WIDTH,
+				PLAYER_SIZE * TILE_HEIGHT)
 		}
 
 		function drawBullets() {
@@ -129,7 +135,7 @@
 
 		function keydown(event) {
 			let keyCode = event.keyCode
-			
+
 			// shift
 			if (keyCode === 16) {
 				BULLET_SPEED = 0.2
@@ -208,7 +214,7 @@
 			function savePlayerPosition() {
 				oldPlayerX = playerX
 				oldPlayerY = playerY
-			} 
+			}
 
 			function movePlayerX() {
 				if (keys.right) {
@@ -272,11 +278,11 @@
 			savePlayerPosition()
 			movePlayerX()
 			restorePositionIfBlocked()
-			
+
 			savePlayerPosition()
 			movePlayerY()
 			restorePositionIfBlocked()
-			
+
 			moveBullets()
 			removeBlockedBullets()
 
