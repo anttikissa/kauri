@@ -255,9 +255,21 @@
 			}
 
 			function isPlayerBlocked() {
-				if (currentTile() === 2) {
+				const playerTiles = currentTiles()
+
+				if (playerTiles[0] === 2) {
 					return true
 				}
+				if (playerTiles[1] === 2) {
+					return true
+				}
+				if (playerTiles[2] === 2) {
+					return true
+				}
+				if (playerTiles[3] === 2) {
+					return true
+				}
+
 				return false
 			}
 
