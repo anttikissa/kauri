@@ -58,6 +58,26 @@
 			return tiles[x + WIDTH * y]
 		}
 
+		// Give list of all tiles that player (or object) is on
+		function currentTiles(object = { x: playerX, y: playerY }) {
+			const HALF_OBJECT_SIZE = 0.5 * PLAYER_SIZE
+			// Upper left corner
+			playerLocation1 = { x: object.x - HALF_OBJECT_SIZE, y: object.y - HALF_OBJECT_SIZE }
+			// Upper right corner
+			playerLocation2 = { x: object.x + HALF_OBJECT_SIZE, y: object.y - HALF_OBJECT_SIZE }
+			// Lower left corner
+			playerLocation3 = { x: object.x - HALF_OBJECT_SIZE, y: object.y + HALF_OBJECT_SIZE }
+			// Lower right corner
+			playerLocation4 = { x: object.x + HALF_OBJECT_SIZE, y: object.y + HALF_OBJECT_SIZE }
+
+			return [
+				currentTile(playerLocation1),
+				currentTile(playerLocation2),
+				currentTile(playerLocation3),
+				currentTile(playerLocation4)
+			]
+		}
+
 		let c = document.querySelector('canvas')
 
 		let ctx = c.getContext('2d')
@@ -119,7 +139,7 @@
 		}
 
 		function drawPlayerTileDebug() {
-			let tile = currentTile()
+			let tile = currentTiles().join(', ')
 			ctx.fillStyle = '#000000'
 			ctx.textAlign = 'center'
 			ctx.font = '7px sans-serif'
@@ -291,7 +311,7 @@
 			drawBullets()
 
 			drawPlayerPositionDebug()
-			// drawPlayerTileDebug()
+			drawPlayerTileDebug()
 
 			// debug
 			// console.log(frameIdx)
