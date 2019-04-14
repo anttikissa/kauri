@@ -30,6 +30,8 @@
 		const TILE_WIDTH = 90
 		const TILE_HEIGHT = 90
 
+		const BULLET_SIZE = 0.1 * TILE_WIDTH
+
 		let tiles = [
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
@@ -129,7 +131,11 @@
 		function drawBullets() {
 			for (let bullet of bullets) {
 				ctx.fillStyle = '#0000ff'
-				ctx.fillRect(bullet.x * TILE_WIDTH, bullet.y * TILE_HEIGHT, 1, 1)
+				ctx.fillRect(
+					bullet.x * TILE_WIDTH - 0.5 * BULLET_SIZE,
+					bullet.y * TILE_HEIGHT - 0.5 * BULLET_SIZE,
+					BULLET_SIZE,
+					BULLET_SIZE)
 			}
 		}
 
