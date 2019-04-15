@@ -143,6 +143,27 @@
 			}
 		}
 
+		function drawTouches() {
+			let TOUCH_DEBUG_SIZE = 0.5 * TILE_WIDTH
+
+			function convertTouch(touch) {
+				return {
+					x: touch.pageX / c.clientWidth * c.width,
+					y: touch.pageY / c.clientHeight * c.height
+				}
+			}
+
+			for (let touch of touches) {
+				ctx.fillStyle = '#0000ff'
+				let pos = convertTouch(touch)
+				ctx.fillRect(
+					pos.x - 0.5 * TOUCH_DEBUG_SIZE,
+					pos.y - 0.5 * TOUCH_DEBUG_SIZE,
+					TOUCH_DEBUG_SIZE,
+					TOUCH_DEBUG_SIZE)
+			}
+		}
+
 		function drawPlayerPositionDebug() {
 			let playerPositionText = `${playerX.toFixed(2)}, ${playerY.toFixed(2)}`
 			ctx.fillStyle = '#000000'
@@ -165,6 +186,10 @@
 			left: 0,
 			right: 0,
 		}
+
+		//
+		// Keyboard handling (computers)
+		//
 
 		function keydown(event) {
 			let keyCode = event.keyCode
@@ -229,12 +254,42 @@
 			} else if (keyCode === 39) {
 				keys.right = 0
 			}
-
-			// log('up', keyCode, keys)
 		}
 
 		window.addEventListener('keydown', keydown)
 		window.addEventListener('keyup', keyup)
+
+		//
+		// Touch handling (mobile devices)
+		//
+
+		let touches = []
+
+		function touchstart(event) {
+			// log('t start', event)
+			touches = []
+			for (const touch of event.touches) {
+				// log('t start touches', touch.pageX, touch.pageY)
+				touches.push(touch)
+			}
+		}
+
+		function touchmove(event) {
+			// log('t move', event)
+			touches = []
+			for (const touch of event.touches) {
+				// log('t move touches', touch.pageX, touch.pageY)
+				touches.push(touch)
+			}
+		}
+
+		function touchend(event) {
+			touches = []
+		}
+
+		window.addEventListener('touchstart', touchstart)
+		window.addEventListener('touchmove', touchmove)
+		window.addEventListener('touchend', touchend)
 
 		const SPEED = 0.05
 
@@ -336,6 +391,8 @@
 			drawLevel()
 			drawPlayer()
 			drawBullets()
+
+			drawTouches()
 
 			drawPlayerPositionDebug()
 			drawPlayerTilesDebug()
