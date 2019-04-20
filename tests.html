@@ -24,13 +24,25 @@
 		let canvas = document.querySelector('canvas')
 		let ctx = canvas.getContext('2d')
 
-		let i = 0
-		function frame() {
-			ctx.fillStyle = '#f0f'
-			ctx.fillRect(0, 0, 1000, 1000)
+		let boxes = [
+			{ x: 100, y: 100, width: 100, height: 100, velocity: { x: 200, y: 200 } }
+		]
 
-			ctx.fillStyle = 'black'
-			ctx.fillRect(i++, i, 100, 100)
+		function clear() {
+			ctx.fillStyle = 'white'
+			ctx.fillRect(0, 0, 1000, 1000)
+		}
+
+		function drawBoxes() {
+			for (let box of boxes) {
+				ctx.fillStyle = 'black'
+				ctx.fillRect(box.x, box.y, box.width, box.height)
+			}
+		}
+
+		function frame() {
+			clear()
+			drawBoxes()
 		}
 
 		setInterval(frame, 1000 / 60)
