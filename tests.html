@@ -33,6 +33,19 @@
 			ctx.fillRect(0, 0, 1000, 1000)
 		}
 
+		function drawGrid() {
+			for (let i = 0; i < 10; i++) {
+				ctx.strokeStyle = '#eee'
+				ctx.lineWidth = 1
+				ctx.moveTo(i * 100, 0)
+				ctx.lineTo(i * 100, 1000)
+				ctx.stroke()
+
+				ctx.moveTo(0, i * 100)
+				ctx.lineTo(1000, i * 100)
+				ctx.stroke()
+			}
+		}
 		function drawBoxes() {
 			for (let box of boxes) {
 				ctx.fillStyle = 'black'
@@ -42,6 +55,7 @@
 
 		function frame() {
 			clear()
+			drawGrid()
 			drawBoxes()
 		}
 
