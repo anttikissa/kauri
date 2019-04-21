@@ -39,15 +39,12 @@
 
 		function drawGrid() {
 			for (let i = 0; i < 10; i++) {
-				ctx.strokeStyle = '#eee'
-				ctx.lineWidth = 1
-				ctx.moveTo(i * 100, 0)
-				ctx.lineTo(i * 100, 1000)
-				ctx.stroke()
 
-				ctx.moveTo(0, i * 100)
-				ctx.lineTo(1000, i * 100)
-				ctx.stroke()
+				const LINE_WIDTH = 1
+
+				ctx.fillStyle = '#bbb'
+				ctx.fillRect(i * 100 - 0.5 * LINE_WIDTH, 0, LINE_WIDTH, 1000)
+				ctx.fillRect(0, i * 100 - 0.5 * LINE_WIDTH, 1000, LINE_WIDTH)
 			}
 		}
 
@@ -58,8 +55,6 @@
 				box.x += box.velocity.x * FRAME_DURATION
 				box.y += box.velocity.y * FRAME_DURATION
 			}
-			log('box', boxes)
-
 		}
 
 		function drawBoxes() {
