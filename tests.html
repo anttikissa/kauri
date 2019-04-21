@@ -54,6 +54,21 @@
 
 		const FRAME_DURATION = 1 / 60
 
+		function rangesOverlap(a1, a2, b1, b2) {
+			if (a1 < b1) {
+				return a2 > b1
+			} else {
+				return b2 > a1
+			}
+		}
+
+		function boxesOverlap(box1, box2) {
+			let [box1x2, box2x2] = [box1.x + box1.width, box2.x + box2.width]
+			let [box1y2, box2y2] = [box1.y + box1.height, box2.y + box2.height]
+			return rangesOverlap(box1.x, box1x2, box2.x, box2x2) &&
+				rangesOverlap(box1.y, box1y2, box2.y, box2y2)
+		}
+
 		function updateBoxes() {
 			for (let box of boxes) {
 				box.collides = false
@@ -72,9 +87,16 @@
 		}
 
 		function checkCollisions() {
-			for (let box of boxes) {
-				if (box.x > 450) {
-					box.collides = true
+			for (let box1 of boxes) {
+				for (let box2 of boxes) {
+					if (box1 === box2) {
+						continue
+					}
+
+					if (boxesOverlap(box1, box2)) {
+						box1.collides = true
+						box2.collides = true
+					}
 				}
 			}
 		}
