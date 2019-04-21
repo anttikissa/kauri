@@ -56,6 +56,8 @@
 
 		function updateBoxes() {
 			for (let box of boxes) {
+				box.collides = false
+
 				box.x += box.velocity.x * FRAME_DURATION
 				box.y += box.velocity.y * FRAME_DURATION
 
@@ -69,9 +71,21 @@
 			}
 		}
 
+		function checkCollisions() {
+			for (let box of boxes) {
+				if (box.x > 450) {
+					box.collides = true
+				}
+			}
+		}
+
 		function drawBoxes() {
 			for (let box of boxes) {
-				ctx.fillStyle = 'black'
+				if (box.collides) {
+					ctx.fillStyle = 'red'
+				} else {
+					ctx.fillStyle = 'black'
+				}
 				ctx.fillRect(box.x, box.y, box.width, box.height)
 			}
 		}
@@ -80,6 +94,7 @@
 			clear()
 			drawGrid()
 			updateBoxes()
+			checkCollisions()
 			drawBoxes()
 			requestAnimationFrame(frame)
 		}
