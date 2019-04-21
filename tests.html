@@ -41,6 +41,13 @@
 			{ x: 800, y: 300, width: 50, height: 150, velocity: { x: 100, y: 10 } },
 		]
 
+		let balls = boxes.map(({ x, y, width, height, velocity}) => ({
+			x: x + 0.5 * width,
+			y: y + 0.5 * height,
+			r: 0.2 * (width + height),
+			velocity: { x: velocity.x, y: velocity.y }
+		}))
+
 		function clear() {
 			ctx.fillStyle = 'white'
 			ctx.clearRect(0, 0, 1000, 1000)
@@ -91,6 +98,22 @@
 			}
 		}
 
+		function updateBalls() {
+			for (let ball of balls) {
+				ball.collides = false
+				ball.x += ball.velocity.x * FRAME_DURATION
+				ball.y += ball.velocity.y * FRAME_DURATION
+
+				if (ball.x - ball.r < 0 || ball.x + ball.r > 1000) {
+					ball.velocity.x *= -1
+				}
+
+				if (ball.y - ball.r < 0 || ball.y + ball.r > 1000) {
+					ball.velocity.y *= -1
+				}
+			}
+		}
+
 		function checkCollisions() {
 			for (let box1 of boxes) {
 				for (let box2 of boxes) {
@@ -117,12 +140,23 @@
 			}
 		}
 
+		function drawBalls() {
+			for (let ball of balls) {
+				ctx.beginPath()
+				ctx.arc(ball.x, ball.y, ball.r, 0, 2 * Math.PI, false)
+				ctx.fillStyle = 'black'
+				ctx.fill()
+			}
+		}
+
 		function frame() {
 			clear()
 			drawGrid()
 			updateBoxes()
+			updateBalls()
 			checkCollisions()
 			drawBoxes()
+			drawBalls()
 			requestAnimationFrame(frame)
 		}
 
