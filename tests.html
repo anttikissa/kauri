@@ -66,13 +66,13 @@
 
 		function frame() {
 			clear()
-			// drawGrid()
+			drawGrid()
 			updateBoxes()
 			drawBoxes()
-			// requestAnimationFrame(frame)
+			requestAnimationFrame(frame)
 		}
 
-		// requestAnimationFrame(frame)
-		setInterval(frame, FRAME_DURATION * 1000)
+		requestAnimationFrame(frame)
+		// setInterval(frame, FRAME_DURATION * 1000)
 	</script>
 </body>
