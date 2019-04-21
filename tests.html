@@ -21,11 +21,15 @@
 	<canvas width=1000 height=1000>
 	</canvas>
 	<script>
+		function log(...args) {
+			console.log(...args)
+		}
+
 		let canvas = document.querySelector('canvas')
 		let ctx = canvas.getContext('2d')
 
 		let boxes = [
-			{ x: 100, y: 100, width: 100, height: 100, velocity: { x: 200, y: 200 } }
+			{ x: 100, y: 100, width: 100, height: 100, velocity: { x: 500, y: 500 } }
 		]
 
 		function clear() {
@@ -46,6 +50,18 @@
 				ctx.stroke()
 			}
 		}
+
+		const FRAME_DURATION = 1 / 60
+
+		function updateBoxes() {
+			for (let box of boxes) {
+				box.x += box.velocity.x * FRAME_DURATION
+				box.y += box.velocity.y * FRAME_DURATION
+			}
+			log('box', boxes)
+
+		}
+
 		function drawBoxes() {
 			for (let box of boxes) {
 				ctx.fillStyle = 'black'
@@ -55,10 +71,13 @@
 
 		function frame() {
 			clear()
-			drawGrid()
+			// drawGrid()
+			updateBoxes()
 			drawBoxes()
+			// requestAnimationFrame(frame)
 		}
 
-		setInterval(frame, 1000 / 60)
+		// requestAnimationFrame(frame)
+		setInterval(frame, FRAME_DURATION * 1000)
 	</script>
 </body>
