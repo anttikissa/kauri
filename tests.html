@@ -55,11 +55,11 @@
 				box.x += box.velocity.x * FRAME_DURATION
 				box.y += box.velocity.y * FRAME_DURATION
 
-				if (box.x + box.width > 1000) {
+				if (box.x < 0 || box.x + box.width > 1000) {
 					box.velocity.x *= -1
 				}
 
-				if (box.y + box.height > 1000) {
+				if (box.y < 0 || box.y + box.height > 1000) {
 					box.velocity.y *= -1
 				}
 			}
