@@ -81,6 +81,12 @@
 				rangesOverlap(box1.y, box1y2, box2.y, box2y2)
 		}
 
+		function ballsOverlap(ball1, ball2) {
+			let [dx, dy] = [ball2.x - ball1.x, ball2.y - ball1.y]
+			let overlapDistance = ball1.r + ball2.r
+			return dx * dx + dy * dy < overlapDistance * overlapDistance
+		}
+
 		function updateBoxes() {
 			for (let box of boxes) {
 				box.collides = false
@@ -114,7 +120,7 @@
 			}
 		}
 
-		function checkCollisions() {
+		function checkBoxCollisions() {
 			for (let box1 of boxes) {
 				for (let box2 of boxes) {
 					if (box1 === box2) {
@@ -129,6 +135,20 @@
 			}
 		}
 
+		function checkBallCollisions() {
+			for (let ball1 of balls) {
+				for (let ball2 of balls) {
+					if (ball1 === ball2) {
+						continue
+					}
+
+					if (ballsOverlap(ball1, ball2)) {
+						ball1.collides = true
+						ball2.collides = true
+					}
+				}
+			}
+		}
 		function drawBoxes() {
 			for (let box of boxes) {
 				if (box.collides) {
@@ -144,7 +164,11 @@
 			for (let ball of balls) {
 				ctx.beginPath()
 				ctx.arc(ball.x, ball.y, ball.r, 0, 2 * Math.PI, false)
-				ctx.fillStyle = 'black'
+				if (ball.collides) {
+					ctx.fillStyle = 'red'
+				} else {
+					ctx.fillStyle = 'black'
+				}
 				ctx.fill()
 			}
 		}
@@ -152,10 +176,11 @@
 		function frame() {
 			clear()
 			drawGrid()
-			updateBoxes()
+			// updateBoxes()
 			updateBalls()
-			checkCollisions()
-			drawBoxes()
+			// checkBoxCollisions()
+			checkBallCollisions()
+			// drawBoxes()
 			drawBalls()
 			requestAnimationFrame(frame)
 		}
