@@ -143,13 +143,58 @@
 			}
 		}
 
-		function drawTouches() {
-			let TOUCH_DEBUG_SIZE = 0.5 * TILE_WIDTH
+		function touchToWorld(touch) {
+			const WIDTH_IN_TILES = c.width / TILE_WIDTH
+			const HEIGHT_IN_TILES = c.height / TILE_HEIGHT
 
+			return {
+				x: touch.clientX / c.clientWidth * WIDTH_IN_TILES,
+				y: touch.clientY / c.clientHeight * HEIGHT_IN_TILES
+			}
+		}
+
+		function button(x, y, w = 1, h = 1) {
+			ctx.fillStyle = 'white'
+			ctx.fillRect(x * TILE_WIDTH, y * TILE_HEIGHT, TILE_WIDTH * w, TILE_HEIGHT * h)
+
+			let clickPosition = null
+
+			if (touches.length === 1) {
+				let touch = touches[0]
+				let tw = touchToWorld(touch)
+
+				if (x < tw.x && tw.x < x + w) {
+					if (y < tw.y && tw.y < y + h) {
+						clickPosition = tw
+					}
+				}
+			}
+
+
+			return {
+				click: (handler) => {
+					if (clickPosition) {
+						handler(clickPosition)
+					}
+				}
+			}
+		}
+
+		function drawUI() {
+			button(19, 1).click((x) => {
+				location.reload()
+			})
+		}
+
+		function drawTouches() {
+			let TOUCH_DEBUG_SIZE = 1 * TILE_WIDTH
+
+			// Kosketuspiste ruutukoordinaateissa
 			function convertTouch(touch) {
+				let tw = touchToWorld(touch)
 				return {
-					x: touch.pageX / c.clientWidth * c.width,
-					y: touch.pageY / c.clientHeight * c.height
+					x: tw.x * TILE_WIDTH,
+					y: tw.y * TILE_HEIGHT
 				}
 			}
 
@@ -391,6 +436,8 @@
 			drawLevel()
 			drawPlayer()
 			drawBullets()
+
+			drawUI()
 
 			drawTouches()
 
