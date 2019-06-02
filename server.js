@@ -1,5 +1,6 @@
 let http = require('http')
 let fs = require('fs')
+let os = require('os')
 
 function log() {
     console.log(...arguments)
@@ -15,4 +16,9 @@ let server = http.createServer((req, res) => {
     }
 })
 
-server.listen(9999)
+let PORT = 9999
+
+server.listen(PORT, () => {
+    let url = `http://${os.hostname()}.local:${PORT}/`
+    log(url)
+})
